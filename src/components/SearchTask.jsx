@@ -1,4 +1,13 @@
-export default function TaskAction() {
+/* eslint-disable react/prop-types */
+import { useState } from "react";
+
+export default function SearchTask({onSearch}) {
+  const [searchInput, setSearchInput] = useState("");
+  const handleSumbit = (event) => {
+    event.preventDefault();
+    onSearch(searchInput)
+  };
+
   return (
     <div className="mb-14 items-center justify-between sm:flex">
       <h2 className="text-2xl font-semibold max-sm:mb-4">Your Tasks</h2>
@@ -10,11 +19,14 @@ export default function TaskAction() {
                 type="search"
                 id="search-dropdown"
                 className="z-20 block w-full bg-gray-800 px-4 py-2 pr-10 focus:outline-none"
+                value={searchInput}
+                onChange={() => setSearchInput(event.target.value)}
                 placeholder="Search Task"
                 required
               />
               <button
                 type="submit"
+                onClick={handleSumbit}
                 className="absolute right-2 top-0 h-full rounded-e-lg text-white md:right-4"
               >
                 <svg

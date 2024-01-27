@@ -1,9 +1,9 @@
 import { useState } from "react";
-import TaskAction from "./TaskAction";
+import SearchTask from "./SearchTask";
 import TaskList from "./TaskLIst";
 
 export default function TaskBord() {
-  const defaultTask = {
+  const defaultTasks = {
     id: crypto.randomUUID(),
     title: "Learn React",
     description:
@@ -12,14 +12,23 @@ export default function TaskBord() {
     priority: "High",
   };
 
-  const [task, setTask] = useState([defaultTask]);
+  const [tasks, setTasks] = useState([defaultTasks]);
+
+  const handleSearch = (searchInput) => {
+    const filtered = tasks.filter((task) =>
+      task.title.toLowerCase().includes(searchInput.toLowerCase())
+    );
+    setTasks([...filtered]);
+  };
 
   return (
     <section className="mb-20" id="tasks">
       <div className="container">
         <div className="rounded-xl border border-[rgba(206,206,206,0.12)] bg-[#1D212B] px-6 py-8 md:px-9 md:py-16">
-          <TaskAction />
-          <TaskList />
+          <SearchTask onSearch={handleSearch} />
+          {tasks.map((task) => (
+            <TaskList key={task.id} task={task} />
+          ))}
         </div>
       </div>
     </section>
